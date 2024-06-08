@@ -302,10 +302,15 @@ status_t AudioTrack::set(
         bool doNotReconnect,
         float maxRequiredSpeed)
 {
-    ALOGV("set(): streamType %d, sampleRate %u, format %#x, channelMask %#x, frameCount %zu, "
+    ALOGI("set(): streamType %d, sampleRate %u, format %#x, channelMask %#x, frameCount %zu, "
           "flags #%x, notificationFrames %d, sessionId %d, transferType %d, uid %d, pid %d",
           streamType, sampleRate, format, channelMask, frameCount, flags, notificationFrames,
           sessionId, transferType, uid, pid);
+    
+    if (format == AUDIO_FORMAT_AC3 || format == AUDIO_FORMAT_E_AC3) {
+        ALOGI("format: %#x, overridden channelMask: 3", format);
+        channelMask = AUDIO_CHANNEL_OUT_FRONT_LEFT | AUDIO_CHANNEL_OUT_FRONT_RIGHT;
+    }        
 
     mThreadCanCallJava = threadCanCallJava;
 
