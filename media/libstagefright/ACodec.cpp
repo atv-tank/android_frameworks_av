@@ -1025,6 +1025,12 @@ status_t ACodec::setupNativeWindowSizeFormatAndUsage(
         usage |= GRALLOC_USAGE_PROTECTED;
     }
 
+#define GRALLOC_USAGE_SECURE 0x01000000;
+if (mFlags & kFlagIsSecure) {
+    usage |= GRALLOC_USAGE_SECURE;
+    ALOGW("ACODEC: use GRALLOC_USAGE_SECURE\n");
+}
+
     usage |= kVideoGrallocUsage;
     *finalUsage = usage;
 
